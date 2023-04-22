@@ -1,0 +1,32 @@
+language: python
+python:
+  - "2.7"
+
+env:
+  - DJANGO=django==1.7.11
+  - DJANGO=django==1.8.14
+  - DJANGO=django==1.9.9
+  - DJANGO=django==1.10
+
+install:
+  - pip install -q $DJANGO 
+  - pip install https://github.com/jorgebastida/django-app-test-runner/zipball/master
+
+script:
+  - app-test-runner dajaxice dajaxice
+
+branches:
+  only:
+    - master
+    - develop
+
+matrix:
+  exclude:
+    # Django>1.5 strongly recommends python 2.7 or later (so skip 2.6)
+    - python: "2.6"
+      env: DJANGO=django==1.5.5
+    - python: "2.6"
+      env: DJANGO=django==1.6.2
+    - python: "2.6"
+      env: DJANGO=django==1.7
+
